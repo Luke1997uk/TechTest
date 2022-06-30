@@ -4,6 +4,7 @@ using TechnicalTest.Core.Interfaces;
 using TechnicalTest.Core.Models;
 using Xunit;
 
+
 namespace TechnicalTest.Core.Tests.Factories
 {
     public class ShapeServiceTests

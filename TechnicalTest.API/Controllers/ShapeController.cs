@@ -3,6 +3,7 @@ using TechnicalTest.API.DTOs;
 using TechnicalTest.Core;
 using TechnicalTest.Core.Interfaces;
 using TechnicalTest.Core.Models;
+using System.Text.Json;
 
 namespace TechnicalTest.API.Controllers
 {
@@ -38,14 +39,17 @@ namespace TechnicalTest.API.Controllers
         public IActionResult CalculateCoordinates([FromBody]CalculateCoordinatesDTO calculateCoordinatesRequest)
         {
             // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
-
+            ShapeEnum shape = (ShapeEnum)calculateCoordinatesRequest.ShapeType;
+            if (shape == ShapeEnum.None || shape != ShapeEnum.Triangle) return BadRequest();
             // TODO: Call the Calculate function in the shape factory.
-
+            var grid = new Grid(calculateCoordinatesRequest.Grid.Size);
+            var gridValue = new GridValue(calculateCoordinatesRequest.GridValue);
+            var result = _shapeFactory.CalculateCoordinates(shape,  grid, gridValue);
             // TODO: Return BadRequest with error message if the calculate result is null
-
+            if (result == null) return BadRequest("ERROR:: No Response Created.");
             // TODO: Create ResponseModel with Coordinates and return as OK with responseModel.
-
-            return Ok();
+            var JsonResponse = JsonSerializer.Serialize(result);
+            return Ok(JsonResponse);
         }
 
         /// <summary>
@@ -64,17 +68,21 @@ namespace TechnicalTest.API.Controllers
         [HttpPost]
         public IActionResult CalculateGridValue([FromBody]CalculateGridValueDTO gridValueRequest)
         {
-	        // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
-
-            // TODO: Create new Shape with coordinates based on the parameters from the DTO.
-
+            // TODO: Get the ShapeEnum and if it is default (ShapeEnum.None) or not triangle, return BadRequest as only Triangle is implemented yet.
+            ShapeEnum shapeEnum = (ShapeEnum)gridValueRequest.ShapeType;
+            if (shapeEnum == ShapeEnum.None || shapeEnum != ShapeEnum.Triangle) return BadRequest();
+            // TODO: Create new Shape with coordinates based on the parameters
+            List<Coordinate> newList = gridValueRequest.Vertices.Select(el => new Coordinate(el.x, el.y)).ToList();
+            var shape = new Shape(newList);
             // TODO: Call the function in the shape factory to calculate grid value.
-
+            var grid = new Grid(gridValueRequest.Grid.Size);
+            var result = _shapeFactory.CalculateGridValue(shapeEnum, grid, shape);
             // TODO: If the GridValue result is null then return BadRequest with an error message.
-
+            if (result == null) return BadRequest("ERROR:: No Response Created.");
             // TODO: Generate a ResponseModel based on the result and return it in Ok();
-
-            return Ok();
+            var JsonResponse = JsonSerializer.Serialize(result);
+            return Ok(JsonResponse);
         }
     }
+    
 }

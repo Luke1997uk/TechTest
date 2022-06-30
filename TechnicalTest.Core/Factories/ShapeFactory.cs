@@ -1,6 +1,7 @@
 ﻿using TechnicalTest.Core.Interfaces;
 using TechnicalTest.Core.Models;
 
+
 namespace TechnicalTest.Core.Factories
 {
     public class ShapeFactory : IShapeFactory
@@ -15,10 +16,10 @@ namespace TechnicalTest.Core.Factories
         public Shape? CalculateCoordinates(ShapeEnum shapeEnum, Grid grid, GridValue gridValue)
         {
             switch (shapeEnum)
-            {
+            { 
                 case ShapeEnum.Triangle:
                     // TODO: Return shape returned from service.
-	                return new Shape();
+	                return _shapeService.ProcessTriangle(grid, gridValue);
                 default:
                     return null;
             }
@@ -31,9 +32,9 @@ namespace TechnicalTest.Core.Factories
                 case ShapeEnum.Triangle:
                     if (shape.Coordinates.Count != 3)
                         return null;
-
                     // TODO: Return grid value returned from service.
-                    return new GridValue(0, 0);
+                    var triangle = new Triangle(shape.Coordinates[0], shape.Coordinates[1], shape.Coordinates[2]);
+                    return _shapeService.ProcessGridValueFromTriangularShape(grid, triangle);
                 default:
                     return null;
             }
