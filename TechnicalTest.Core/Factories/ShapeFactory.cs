@@ -33,6 +33,7 @@ namespace TechnicalTest.Core.Factories
                     if (shape.Coordinates.Count != 3)
                         return null;
                     // TODO: Return grid value returned from service.
+                    // Created Triangle using 3 Coordinates in shape.
                     var triangle = new Triangle(shape.Coordinates[0], shape.Coordinates[1], shape.Coordinates[2]);
                     return _shapeService.ProcessGridValueFromTriangularShape(grid, triangle);
                 default:

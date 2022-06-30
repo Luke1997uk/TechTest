@@ -12,7 +12,7 @@ namespace TechnicalTest.Core.Services
             // TODO: Calculate the coordinates.
 
             //Coverted row string to Int using Chars ASCII numerical Values ( Each Char is Store as a number )
-            // e.g Uppercase A = 1
+            // e.g Uppercase A = 65
             int rowY = (char.ToUpper(char.Parse(gridValue.Row)) - 64) * grid.Size;
             int colX = gridValue.Column;
 
@@ -26,11 +26,11 @@ namespace TechnicalTest.Core.Services
                 //Now with all the information for the Bottom Right Vertex the other two vertex points can be worked out 
 
                 return new Shape(new List<Coordinate> {
-                    //One grid place back for both X and Y, Top Left Vertex.
+                    //One grid place back for both X and Y Top Left Vertex.
                     //Directly across from Bottom Right Vertex. so minus both axis by grid size 
                     new(colX - grid.Size, rowY - grid.Size),
                     //One Grid place back for just Y, Second Point Outer Vertex 
-                    //Know it has to be the Even number location, thus the outer vertex Y axis is lower than the bottom right Y axis 
+                    //I Know it has to be the Even number location, thus the outer vertex Y axis is lower than the bottom right Y axis 
                     new(colX, rowY - grid.Size),
                     //Bottom Right Vertex
                     new(colX, rowY) });
@@ -46,7 +46,7 @@ namespace TechnicalTest.Core.Services
                     //Directly across from Bottom Right Vertex. so minus both axis by grid size 
                     new(colX - grid.Size, rowY - grid.Size),
                     //One Grid place back for just X, Second Point Outer Vertex 
-                    //Know it has to be the Odd number location, thus the outer vertex X axis is lower than the bottom right X axis
+                    //I Know it has to be the Odd number location, thus the outer vertex X axis is lower than the bottom right X axis
                     new(colX - grid.Size, rowY),
                     //Thrid Point Bottom Right
                     new(colX, rowY) });
@@ -63,7 +63,7 @@ namespace TechnicalTest.Core.Services
             //E.g.Y = 20 + 10 (grid.size) = 30  30 / 10 = 3 = C
             int gridValueRow = (triangle.TopLeftVertex.Y + grid.Size) / grid.Size;
 
-            //Find col by Adding Top left X and Bottom right and divide by grid size to get number.
+            //Find col by adding Top left X and Bottom right X and divide by grid size to get number.
             //E.g X = 10 + 20 = 30  30 / 10 = 3
             int col = (triangle.BottomRightVertex.X + triangle.TopLeftVertex.X ) / grid.Size;
             Debug.WriteLine(col);
